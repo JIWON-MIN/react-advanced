@@ -2,55 +2,52 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
-class Foo extends React.Component {
-  componentDidMount() {
-    console.log('Foo componentDidMount', this.props.children);
+class Person extends React.Component {
+  shouldComponentUpdate(previousProps) {
+    for (const key in this.props) {
+      if (previousProps[key] !== this.props[key]){
+        return true;
+      }
+    }
+    return false;
   }
-  componentWillUnmount() {
-    console.log('Foo componentWillUnmount');
-  }
-
-  static getDerivedStateFromProps(nextProps, prevProps) {
-    console.log("Foo getDerivedStateFromProps", nextProps, prevProps);
-    return {};
-  }
-
   render() {
-    console.log("Foo render", this.props.children);
-    return <p>Foo</p>
+    console.log("Person render");
+    const {name, age} = this.props;
+    return <div>{name} / {age}</div>
   }
 }
 
 class App extends React.Component {
   state = {
-    count: 0,
+    text: "",
+    persons: [
+      {id: 1, name: "Mark", age: 39},
+      {id: 2, name: "Hanna", age: 28},
+      
+    ]
   };
 
-  componentDidMount() {
-    setInterval(()=>{
-      this.setState({count: this.state.count+1});
-    }, 1000);
-  }
-
   render() {
-    if (this.state.count % 2 === 0){
-      return ( 
-        <ul>
-          <Foo key="2">second</Foo>
-          <Foo key="3">third</Foo>
-        </ul>
-      );
-    }
+    const {text, persons} = this.state;
 
     return (
-      <ul>
-        <Foo key="1">first</Foo>
-        <Foo key="2">second</Foo>
-        <Foo key="3">third</Foo>
-      </ul>
-    );
+      <div>
+        <input type="text" value={text} onChange={this._change} />
+        <ul>
+          {persons.map(person => {
+          return <Person {...person} key={person.id} />})}
+        </ul>
+      </div>
+    )
   }
   
+  _change = e => {
+    this.setState({
+      ...this.state,
+      text: e.target.value,
+    })
+  }
 }
 
 
