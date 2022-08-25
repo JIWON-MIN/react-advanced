@@ -2,45 +2,46 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
-class Person extends React.PureComponent {
-  render() {
-    console.log("Person render");
-    const {name, age} = this.props;
-    return <div>{name} / {age}</div>
-  }
-}
+const Person = React.memo(({name, age}) => {
+  console.log("Person render");
+  return (
+    <div>
+      {name} / {age}
+    </div>
+  );
+});
 
-class App extends React.Component {
-  state = {
+function App() {
+  const [state, setState] = React.useState({
     text: "",
     persons: [
       {id: 1, name: "Mark", age: 39},
-      {id: 2, name: "Hanna", age: 28},
-      
-    ]
-  };
+      {id: 2, name: "Hanna", age: 28},  
+    ],
+  });
 
-  render() {
-    const {text, persons} = this.state;
+  const toPersonClick = React.useCallback(() => {}, []);
+  const {text, persons} = state;
 
-    return (
-      <div>
-        <input type="text" value={text} onChange={this._change} />
-        <ul>
-          {persons.map(person => {
-          return <Person {...person} key={person.id} />})}
-        </ul>
-      </div>
-    )
-  }
-  
-  _change = e => {
-    this.setState({
-      ...this.state,
+  return (
+    <div>
+      <input type="text" value={text} onChange={change} />
+      <ul>
+        {persons.map(person => {
+        return <Person {...person} key={person.id} onClick={toPersonClick}/>})}
+      </ul>
+    </div>
+  )
+
+  function change (e) {
+    setState({
+      ...state,
       text: e.target.value,
-    })
+    });
   }
+
 }
+  
 
 
 export default App;
