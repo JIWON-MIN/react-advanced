@@ -3,13 +3,20 @@ import './App.css';
 import React from 'react';
 
 class Foo extends React.Component {
-  componentDidMount() {
-    console.log('Foo componentDidMount');
+  // componentDidMount() {
+  //   console.log('Foo componentDidMount');
+  // }
+  // componentWillUnmount() {
+  //   console.log('Foo componentWillUnmount');
+  // }
+
+  static getDerivedStateFromProps(nextProps, prevProps) {
+    console.log("Foo getDerivedStateFromProps", nextProps, prevProps);
+    return {};
   }
-  componentWillUnmount() {
-    console.log('Foo componentWillUnmount');
-  }
+
   render() {
+    console.log("Foo render");
     return <p>Foo</p>
   }
 }
@@ -25,28 +32,14 @@ class App extends React.Component {
     }, 1000);
   }
 
-  // render(){
-  //   if (this.state.count % 2 === 0)
-  //     return (
-  //       <div>
-  //         <Foo />
-  //       </div>
-  //     );
-
-  //   return(
-  //     <span>
-  //       <Foo />
-  //     </span>
-  //   );
-  // }
-  
-  render(){
+  render() {
     if (this.state.count % 2 === 0){
-      return <div className="before" title="stuff" />;
+      return <Foo name="Mark" />
     }
-    
-    return <div className="after" title="stuff" />;
+
+    return <Foo name="Hanna" />
   }
+  
 }
 
 
