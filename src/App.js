@@ -2,15 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
-class Person extends React.Component {
-  shouldComponentUpdate(previousProps) {
-    for (const key in this.props) {
-      if (previousProps[key] !== this.props[key]){
-        return true;
-      }
-    }
-    return false;
-  }
+class Person extends React.PureComponent {
   render() {
     console.log("Person render");
     const {name, age} = this.props;
